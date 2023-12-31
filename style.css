@@ -1,0 +1,207 @@
+.title {
+    font-weight: bold;
+    font-size: 30px;
+}
+
+#bodyStyle {
+    overflow: auto;
+    width: 100%;
+    height: 10vh;
+    line-height: 1.5;
+    margin: 0;
+}
+
+#map {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+}
+
+#left-side_Container {
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+}
+
+#sidebar_Container {
+    position: relative;
+    z-index: 0;
+    top: 15px;
+    background-color: white;
+    width: 400px;
+    height: 100vh;
+    opacity: 0;
+    padding: 3px;
+    overflow: scroll;
+}
+
+#sidebar_DanjiInfo_Container {
+    position: relative;
+    text-align: center;
+    min-height: max-content;
+}
+
+#sidebar_DanjiInfo_BaseInfo_Container {
+    position: relative;
+    min-height: max-content;
+    padding-bottom: 10vh;
+}
+
+#addressSearch_Container {
+    position: relative;
+    z-index: 2;
+    top: 10px;
+    left: 10px;
+}
+
+#address_Input {
+    font-size: 15px;
+    padding: 10px;
+}
+
+#search_Button {
+    font-size: 20px;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+#circle-control-container {
+    display: flex;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 3;
+}
+
+#sidebar_close_Button {
+    position: relative;
+    font-size: 15px;
+}
+
+#right-side_Container {
+    display: flex;
+}
+
+.region_Marker_Container {
+    display: flex;
+    background-color: white;
+    border-radius: 20px;
+    font-family: Arial;
+    font-size: 15px;
+    opacity: 0.8;
+}
+
+.region_Name_Container {
+    font-weight: 300;
+    padding: 5px;
+}
+
+.region_Price_Container {
+    font-weight: 700;
+    color: white;
+    background-color: pink;
+
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    padding: 5px;
+}
+
+.danji_Marker_Container {
+
+    text-align: center;
+    background-color: white;
+    font-family: Arial;
+    border-radius: 10px;
+    font-size: 15px;
+    opacity: 0.8;
+}
+
+.danji_Marker_Container .not_empty {
+    width: 60px;
+}
+
+.danji_Marker_Container .infoBox {
+    background-color: rgb(125, 125, 207);
+    color: white;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.danji_Marker_Container .avgPrice {
+    font-weight: 1000;
+    color: white;
+}
+
+.danji_Marker_Container .supply {
+    font-size: 12px;
+    font-weight: 800;
+    padding-inline: 6px;
+
+}
+
+.danji_Marker_Container .empty {
+    background: white;
+    width: 20px;
+    height: 20px;
+}
+
+.danji_Marker_Container .roof {
+    background: white;
+    height: 5px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+
+.danji_Marker_Container .floor {
+    background: rgb(125, 125, 207);
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    height: 15px;
+}
+
+.sidebar_DanjiInfo_BrifContainer {
+    text-align: center;
+    font-family: Arial;
+}
+
+.sale_Marker_Container {
+
+    justify-content: center;
+    text-align: center;
+    display: flex;
+    align-items: center;
+
+    border-radius: 50%;
+    background-color: skyblue;
+    opacity: 0.8;
+
+}
+
+.saleNum {
+    font-family: Arial;
+    font-size: 15px;
+    font-weight: lighter;
+    color: white;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+th,
+td {
+    border: 1px solid black;
+}
+
+td {
+    text-align: center;
+}
+
+th {
+    color: white;
+    font-weight: lighter;
+    background-color: rgb(222, 141, 141);
+}

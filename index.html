@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="style.css">
+
+    <!-- crypto -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.js"></script>
+
+    <!-- axios -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <!-- 지도 API -->
+    <script type="text/javascript"
+        src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e584c9f7348cb1e96bc42847adf33a7e&libraries=services,clusterer,drawing"></script>
+
+    <!-- 내부 모듈화 -->
+    <script type="text/javascript" src="markerHandler.js"></script>
+    <script type="text/javascript" src="fetchHandler.js"></script>
+    <script type="text/javascript" src="geoSearch.js"></script>
+    <script type="text/javascript" src="maps.js"></script>
+    <script type="text/javascript" src="sideInfoBarHandler.js"></script>
+    <script type="text/javascript" src="state.js"></script>
+</head>
+
+<body id="bodyStyle">
+
+    <div id="map">
+
+        <!-------------------------------------------------------------->
+
+        <!-- Search_Area Container -->
+        <div id="left-side_Container">
+            <div id="addressSearch_Container">
+                <input id="address_Input" onkeypress="pressedEnterkey()" placeholder="시/도 시/군/구 읍/면/동/">
+                <button id="search_Button" onclick="SearchAddress()">
+                    검색
+                </button>
+            </div>
+
+
+            <div id="sidebar_Container">
+
+            </div>
+
+        </div>
+
+        <div id="right-side_Container">
+            <!-------------------------------------------------------------->
+
+            <!-- Circle make Button Container -->
+            <div id="circle-control-container">
+                <button onclick="makeCircle(1)">1KM</button>
+                <button onclick="makeCircle(5)">5KM</button>
+                <button onclick="makeCircle(10)">10KM</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 상수 //
+
+        const API_KEY = "e584c9f7348cb1e96bc42847adf33a7e";
+
+        //--------------------------------------------------------------//
+
+        // Maps //
+        let center_Pos = [35.1465272999, 129.0659751];
+
+        // create map
+        var mapContainer = document.getElementById('map');
+        var mapOption = {
+            center: new kakao.maps.LatLng(center_Pos[0], center_Pos[1]),
+            level: 5
+        }
+
+        var map = new kakao.maps.Map(mapContainer, mapOption);
+        updateMap();
+
+        function getMap() {
+            return this.map;
+        }
+
+        //--------------------------------------------------------------//
+
+        // Price Marker Maker //
+
+        function setLevel(level) {
+            // setLevel 시 애니메이션 효과의 지속시간을 400ms로 설정
+            map.setLevel(level, {
+                animate: {
+                    duration: 400
+                }
+            });
+        }
+
+        async function pressedEnterkey() {
+            var code = event.keyCode;
+            if (code == 13) {
+                await SearchAddress();
+                //kakao.maps.event.trigger(map, 'searchend');
+                updateMap();
+            }
+        }
+
+        async function updateMap() {
+            //console.log('now coords : ' + map.getCenter());
+            //** Data Fetch **//
+            // data 를 fetch 하는 함수
+            let datas =
+                await fetchPrice(ConvertZoomLevel_KakaoToNaver(map.getLevel()), map.getBounds());
+
+            // fetch한 값을 console.log로 출력하는 함수
+            markers = makeMarkers(datas, getMap());
+        }
+
+        //** Event Listen **//
+        async function toggleMovale(toggle) {
+            map.setDraggable(toggle);
+            map.setZoomable(toggle);
+
+        }
+
+        /*
+
+        marker를 업데이트 해야 하는 상황
+        1. zoom level이 변경되었을 때 => 전부 삭제하고 다시 생성
+        2. drag가 끝났을 떄 => 범위 안에 있는 것들은 유지하고, 새로운 건 새로 생성
+        3. search를 통해 새로운 주소를 검색했을 때 => 전부 삭제하고 다시 생성
+        */
+
+        kakao.maps.event.addListener(getMap(), 'searchend', function () {
+            updateMap();
+        });
+
+        kakao.maps.event.addListener(getMap(), 'drag', function () {
+            setSideBarOpacity(0.7);
+        });
+
+        kakao.maps.event.addListener(getMap(), 'dragend', function () {
+            removeMarkersByBoundary(map.getBounds());
+            setSideBarOpacity(1);
+            updateMap();
+        });
+
+        kakao.maps.event.addListener(getMap(), 'zoom_changed', function () {
+            removeAllMarkers();
+            updateMap();
+        });
+
+    </script>
+</body>
+
+</html>
